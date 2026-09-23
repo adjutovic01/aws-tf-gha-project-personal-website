@@ -11,9 +11,9 @@ permissions:
   contents: read #This is required for actions/checkout
 
 jobs:
-    creating_bucket
-      runs-on: ubuntu-latest
-      steps:
+  creating_bucket
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -22,21 +22,23 @@ jobs:
         with:
           role-to-assume: ${{ secrets.IAM_ROLE }}
 
-      - name: Install Terraform
-        uses: hashicorp/setup-terraform@v3
+      name: Install Terraform
+      uses: hashicorp/setup-terraform@v4
+      name: Terraform Init
+      run: terraform init
+      working-directory: terraform
 
-      - name: Terraform Init
-        run: terraform init
-        working-directory: terraform
+      name: Terraform Plan
+      env: 
+        BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+      run: 
+        terraform plan \
+          -var "bucket name=$BUCKET_NAME" \
+          -out=tfplan
+      working-directory: terraform
 
-      - name: Terraform Plan
-        env:
-          BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
-        run: terraform plan -var "bucket_name=$BUCKET_NAME" -out=tfplan
-        working-directory: terraform
-
-      - name: Terraform Apply
-        env:
-          TF_VAR_bucket_name: ${{ secrets.BUCKET_NAME }}
-        run: terraform apply -auto-approve
-        working-directory: terraform
+      name: Terraform Apply
+      env: 
+        TF_VAR_bucket_name: ${{ secrets.BUCKET_NAME }}
+      run: terraform apply -auto-approve
+      working-directory: terraform
