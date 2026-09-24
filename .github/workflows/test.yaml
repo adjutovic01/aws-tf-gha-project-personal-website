@@ -29,7 +29,7 @@ jobs:
       - name: Set up AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::365646128073:role/personalWebSite
+          role-to-assume: ${{ secrets.IAM_ROLE }}
           aws-region: us-east-1
 
       - name: Install Terraform
