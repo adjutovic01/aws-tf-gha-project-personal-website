@@ -42,9 +42,9 @@ jobs:
       - name: Terraform Plan
         env: 
           BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
-        run: 
+        run: |
           terraform plan \
-            -var "bucket name=$BUCKET_NAME" \
+            -var "bucket_name=$BUCKET_NAME" \
             -out=tfplan
         working-directory: terraform
 
