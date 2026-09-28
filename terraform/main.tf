@@ -11,7 +11,7 @@ resource "aws_s3_bucket_website_configuration" "static_website_config" {
 
 resource "aws_s3_bucket_policy" "static_site_policy" {
     bucket = aws_s3_bucket.static_site.id
-    policy = =jsoncode({
+    policy = jsonencode({
         Version = "2012-10-17"
         Statement = [
             {
