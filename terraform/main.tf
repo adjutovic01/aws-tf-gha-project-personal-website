@@ -8,6 +8,7 @@ resource "aws_s3_bucket_website_configuration" "static_website_config" {
     index_document {
         suffix = "index.html"
     }
+}
 
 resource "aws_s3_bucket_policy" "static_site_policy" {
     bucket = aws_s3_bucket.static_site.id
