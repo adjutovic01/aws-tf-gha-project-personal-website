@@ -81,11 +81,6 @@ resource "aws_cloudfront_origin_access_control" "oac" {
   signing_protocol                  = "sigv4"
 }
 
-
-data "aws_acm_certificate" "my_domain" {
-  region   = "us-east-1"
-  domain   = "*.${local.my_domain}"
-  statuses = ["ISSUED"]
 }
 
 resource "aws_cloudfront_origin_access_control" "default" {
