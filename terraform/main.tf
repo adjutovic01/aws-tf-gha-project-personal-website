@@ -159,13 +159,10 @@ resource "aws_s3_bucket_policy" "static_site_policy" {
 }
 
 # Create Route53 records for the CloudFront distribution aliases
-data "aws_route53_zone" "my_domain" {
-  name = local.my_domain
-}
 
 resource "aws_route53_record" "cloudfront" {
   for_each = aws_cloudfront_distribution.s3_distribution.aliases
-  zone_id  = data.aws_route53_zone.my_domain.zone_id
+  zone_id  = data.aws_route53_zone.domain_zone.zone_id
   name     = each.value
   type     = "A"
 
