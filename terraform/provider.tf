@@ -1,5 +1,5 @@
 provider "aws" {
-  
+  region = "us-east-1" # to use ACM with CloudFront, the certificate must be in us-east-1"
 }
 
 terraform {

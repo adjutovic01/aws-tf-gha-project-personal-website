@@ -33,7 +33,7 @@ resource "aws_s3_bucket_public_access_block" "static_site_access" {
 #   depends_on = [aws_s3_bucket_public_access_block.static_site_access]
 #}
 
-resource "aws_acm_certificate" "adjutovic_cert  " {
+resource "aws_acm_certificate" "adjutovic_cert" {
     domain_name       = "djuta.org"
     validation_method = "DNS"
 
