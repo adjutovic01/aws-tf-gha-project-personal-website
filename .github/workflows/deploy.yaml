@@ -1,0 +1,62 @@
+name: Deploy the website to AWS S3
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  id-token: write #This is required for requesting JWT
+  contents: read #This is required for actions/checkout
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Show OIDC claims
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const t = await core.getIDToken('sts.amazonaws.com');
+            const p = JSON.parse(Buffer.from(t.split('.')[1], 'base64url').toString());
+            core.info(`sub: ${p.sub}`);
+            core.info(`aud: ${p.aud}`);
+
+      - name: Set up AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.IAM_ROLE }}
+          aws-region: us-east-1
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: terraform
+
+      - name: Terraform Plan
+        env: 
+          BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+        run: |
+          terraform plan \
+            -var "bucket_name=$BUCKET_NAME" \
+            -out=tfplan
+        working-directory: terraform
+
+      - name: Terraform Apply
+        env: 
+          TF_VAR_bucket_name: ${{ secrets.BUCKET_NAME }}
+        run: terraform apply -auto-approve
+        working-directory: terraform
+
+      - name: Uploading Files to S3 Bucket
+        run: |
+          aws s3 cp index.html s3://${{ secrets.BUCKET_NAME }}/index.html
+          aws s3 cp --recursive images/ s3://${{ secrets.BUCKET_NAME }}/images/
+          aws s3 cp --recursive styles/ s3://${{ secrets.BUCKET_NAME }}/styles/
+          
