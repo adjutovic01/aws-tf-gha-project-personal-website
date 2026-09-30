@@ -2,13 +2,13 @@ resource "aws_s3_bucket" "static_site" {
     bucket = var.bucket_name
 }
 
-resource "aws_s3_bucket_website_configuration" "static_website_config" {
-    bucket = aws_s3_bucket.static_site.id
+# resource "aws_s3_bucket_website_configuration" "static_website_config" {
+#     bucket = aws_s3_bucket.static_site.id
 
-    index_document {
-        suffix = "index.html"
-    }
-}
+#     index_document {
+#         suffix = "index.html"
+#     }
+# }
 
 resource "aws_s3_bucket_public_access_block" "static_site_access" {
     bucket = aws_s3_bucket.static_site.id
