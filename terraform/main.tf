@@ -61,7 +61,7 @@ resource "aws_route53_record" "adjutovic_cert_validation" {
         }
     }
 
-    zone_id = data.aws_route53_record.domain_zone.zone_id
+    zone_id = data.aws_route53_zone.domain_zone.id
     name    = each.value.name
     type    = each.value.type
     records = [each.value.record]
