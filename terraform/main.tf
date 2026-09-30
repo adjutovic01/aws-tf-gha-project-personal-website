@@ -81,8 +81,6 @@ resource "aws_cloudfront_origin_access_control" "oac" {
   signing_protocol                  = "sigv4"
 }
 
-}
-
 resource "aws_cloudfront_origin_access_control" "default" {
   name                              = "default-oac"
   origin_access_control_origin_type = "s3"
