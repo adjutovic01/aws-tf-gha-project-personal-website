@@ -32,3 +32,18 @@ resource "aws_s3_bucket_public_access_block" "static_site_access" {
 #   })
 #   depends_on = [aws_s3_bucket_public_access_block.static_site_access]
 #}
+
+resource "aws_acm_certificate" "adjutovic_cert  " {
+    domain_name       = "djuta.org"
+    validation_method = "DNS"
+
+    subject_alternative_names = [
+        "www.djuta.org"
+    ]
+    tags = {
+        Name = "djuta.org SSL Certificate"
+    }
+    lifecycle {
+        create_before_destroy = true
+    }
+}
