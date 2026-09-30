@@ -1,9 +1,9 @@
 name: Deploy the website to AWS S3
 
 on:
-  push:
-    branches:
-      - master
+  # push:
+  #   branches:
+  #     - master
   workflow_dispatch:
 
 permissions:
