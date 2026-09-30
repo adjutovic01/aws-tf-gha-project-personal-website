@@ -174,7 +174,7 @@ resource "aws_route53_record" "cloudfront" {
 }
 
 resource "aws_route53_record" "djuta_root" {
-  zone_id = data.aws_route53_zone.domain_zone
+  zone_id = data.aws_route53_zone.domain_zone.zone_id
   name    = "djuta.org"
   type    = "A"
 
@@ -185,7 +185,7 @@ resource "aws_route53_record" "djuta_root" {
   }
 }
 resource "aws_route53_record" "djuta_www" {
-  zone_id = data.aws_route53_zone.domain_zone
+  zone_id = data.aws_route53_zone.domain_zone.zone_id
   name    = "www.djuta.org"
   type    = "A"
 
