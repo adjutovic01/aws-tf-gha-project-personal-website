@@ -172,3 +172,26 @@ resource "aws_route53_record" "cloudfront" {
     evaluate_target_health = false
   }
 }
+
+resource "aws_route53_record" "djuta_root" {
+  zone_id = aws_route53_zone.domain_zone.zone_id
+  name    = "djuta.org"
+  type    = "A"
+
+  alias {
+    name                   = aws_cloudfront_distribution.s3_distribution.domain_name
+    zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
+    evaluate_target_health = false
+  }
+}
+resource "aws_route53_record" "djuta_www" {
+  zone_id = aws_route53_zone.domain_zone.zone_id
+  name    = "www.djuta.org"
+  type    = "A"
+
+  alias {
+    name                   = aws_cloudfront_distribution.s3_distribution.domain_name
+    zone_id                = aws_cloudfront_distribution.s3_distribution.hosted_zone_id
+    evaluate_target_health = false
+  }
+}
