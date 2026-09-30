@@ -52,7 +52,7 @@ resource "aws_acm_certificate" "adjutovic_cert" {
     }
 }
 
-resource "aws_route53_record" "adjutovic_cert_validation" {
+resource "aws_route53_zone" "adjutovic_cert_validation" {
     for_each = {
         for dvo in aws_acm_certificate.adjutovic_cert.domain_validation_options : dvo.domain_name => {
             name   = dvo.resource_record_name
